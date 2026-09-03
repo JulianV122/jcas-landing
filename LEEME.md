@@ -128,6 +128,75 @@ archivo respetando el nombre. Tamaños de referencia:
 
 ## Cómo publicar la página en internet
 
+Hay dos formas. La **A** es la recomendada: subes los cambios a GitHub y la página se
+actualiza sola. La **B** es más manual pero no requiere GitHub.
+
+---
+
+## Opción A — GitHub + Netlify (se actualiza solo)
+
+El proyecto ya está preparado: tiene el repositorio de Git iniciado, el `.gitignore` y el
+`netlify.toml` con las instrucciones de despliegue.
+
+### Paso 1 — Crear el repositorio en GitHub
+
+1. Entra a **https://github.com/new**
+2. Ponle de nombre `jcas-landing` (o el que prefieras).
+3. **No marques** ninguna casilla de "Add README", "Add .gitignore" ni licencia — el
+   proyecto ya trae los suyos.
+4. Puedes dejarlo **privado**; Netlify funciona igual.
+5. Crea el repositorio y copia la dirección que te muestra
+   (algo como `https://github.com/tu-usuario/jcas-landing.git`).
+
+### Paso 2 — Subir el proyecto
+
+Desde la carpeta del proyecto, reemplazando la dirección por la tuya:
+
+```
+git remote add origin https://github.com/tu-usuario/jcas-landing.git
+git push -u origin main
+```
+
+La primera vez tarda un par de minutos (son unos 36 MB) y te pedirá iniciar sesión en
+GitHub desde el navegador.
+
+### Paso 3 — Conectar Netlify
+
+1. Entra a **https://app.netlify.com** y crea una cuenta gratis.
+2. **Add new site → Import an existing project → GitHub**.
+3. Autoriza a Netlify y elige tu repositorio.
+4. Netlify lee solo el archivo `netlify.toml` y rellena la configuración
+   (comando `python3 empaquetar.py`, carpeta `publicar`). **No cambies nada**, dale a
+   *Deploy*.
+5. En un par de minutos tienes la página en `algo-aleatorio.netlify.app`. En
+   *Site configuration → Change site name* puedes dejarla en `jcas-saladebelleza.netlify.app`.
+
+### A partir de ahí
+
+Cada vez que cambies algo:
+
+```
+git add -A
+git commit -m "Describe el cambio"
+git push
+```
+
+Netlify lo detecta, ejecuta `empaquetar.py` y publica la nueva versión sola, en 1-2 minutos.
+No hay que arrastrar carpetas ni acordarse de empaquetar nada.
+
+Si algo sale mal, en *Deploys* puedes volver a cualquier versión anterior con un clic.
+
+### Si el despliegue falla
+
+El único paso que puede fallar es que Netlify no encuentre Python. Solución: en
+*Site configuration → Build & deploy → Build settings*, **borra el comando de build** y
+pon la carpeta a publicar en `.` (un punto). Publicará el proyecto completo: pesa más
+(67 MB en vez de 8 MB) pero funciona exactamente igual.
+
+---
+
+## Opción B — Arrastrar la carpeta (sin GitHub)
+
 ### Paso 1 — Preparar los archivos
 
 ```
@@ -138,23 +207,22 @@ Esto crea la carpeta **`publicar/`** con solo lo necesario: 8 MB en vez de los 6
 proyecto completo (descarta imágenes de la plantilla que no usamos y formatos de fuente
 que solo servían para Internet Explorer). Ejecútalo cada vez que hagas cambios.
 
-### Paso 2 — Subirla a Netlify (gratis)
+### Paso 2 — Subirla a Netlify
 
 1. Entra a **https://app.netlify.com/drop**
-2. Arrastra la carpeta **`publicar`** completa a la zona punteada de la página.
-3. En menos de un minuto te da una dirección tipo `nombre-aleatorio.netlify.app`.
-   **Ya está en internet**, con HTTPS incluido.
-4. Crea una cuenta gratis (con tu correo o con Google) para que la página no se borre y
-   puedas administrarla.
-5. En **Site configuration → Change site name** cámbiale el nombre a algo como
-   `jcas-saladebelleza`, y quedará en `jcas-saladebelleza.netlify.app`.
+2. Arrastra la carpeta **`publicar`** completa a la zona punteada.
+3. En menos de un minuto te da una dirección `.netlify.app`, con HTTPS incluido.
+4. Crea una cuenta gratis para que la página no se borre.
 
-El plan gratuito da 100 GB de tráfico al mes — muchísimo más de lo que un salón necesita.
+**Para actualizar:** corre `python empaquetar.py` otra vez y arrastra la carpeta en
+*Deploys*. Reemplaza la versión anterior.
 
-**Para actualizar la página después:** corre `python empaquetar.py` otra vez y arrastra la
-carpeta en **Deploys → arrastra tu carpeta aquí**. Reemplaza la versión anterior.
+*(Si empezaste por aquí y luego quieres pasarte a la opción A, puedes conectar el
+repositorio después en Site configuration → Build & deploy → Link repository.)*
 
-### Paso 3 (opcional) — Dominio propio
+---
+
+## Dominio propio (opcional, para cualquiera de las dos opciones)
 
 `jcas-saladebelleza.netlify.app` funciona perfecto, pero para un negocio conviene algo como
 `jcassaladebelleza.com`. Se compra en Namecheap, GoDaddy o Hostinger (un `.com` cuesta unos
@@ -164,7 +232,7 @@ Una vez comprado: en Netlify entra a **Domain management → Add a domain**, esc
 dominio y Netlify te indica qué registros DNS poner en el panel de donde lo compraste. El
 certificado HTTPS lo genera solo y gratis.
 
-### Después de publicar
+## Después de publicar
 
 - Pon el link en la **biografía de Instagram** y en la **ficha de Google Maps** del salón
   (Google Business Profile → Editar perfil → Sitio web). Eso último ayuda bastante a que
@@ -172,11 +240,11 @@ certificado HTTPS lo genera solo y gratis.
 - Comparte el link por WhatsApp: la vista previa ya está configurada con el logo y una
   descripción.
 
-### Otras opciones
+## Otras alternativas de hosting
 
-**Cloudflare Pages** (`pages.cloudflare.com`) funciona igual de bien y también es gratis.
-**GitHub Pages** es gratis pero requiere manejar Git. Un hosting tradicional con cPanel
-también sirve: subes el contenido de `publicar/` a la carpeta `public_html` por FTP.
+**Cloudflare Pages** (`pages.cloudflare.com`) funciona igual de bien, también es gratis y
+también se conecta a GitHub. Un hosting tradicional con cPanel también sirve: subes el
+contenido de `publicar/` a la carpeta `public_html` por FTP.
 
 ---
 
@@ -186,6 +254,9 @@ también sirve: subes el contenido de `publicar/` a la carpeta `public_html` por
 JCAS/
 ├─ index.html              ← la página completa
 ├─ empaquetar.py           ← genera la carpeta lista para subir
+├─ netlify.toml            ← configuración de despliegue en Netlify
+├─ runtime.txt             ← versión de Python que usa Netlify al construir
+├─ .gitignore              ← publicar/ no se sube al repo, Netlify la genera
 ├─ publicar/               ← lo que se sube a internet (se regenera solo)
 ├─ LEEME.md                ← este archivo
 └─ assets/
