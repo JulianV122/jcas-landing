@@ -1,0 +1,11 @@
+# Carpeta generada por empaquetar.py — Netlify la construye en cada despliegue
+publicar/
+
+# Windows
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Python
+__pycache__/
+*.pyc

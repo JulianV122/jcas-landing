@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#141210"/><stop offset="0.5" stop-color="#0B0A09"/><stop offset="1" stop-color="#1C1712"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8C6B3F"/><stop offset="0.5" stop-color="#E3C48D"/><stop offset="1" stop-color="#8C6B3F"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#g)"/>
+  <rect x="10" y="10" width="780" height="780" fill="none" stroke="url(#gold)" stroke-width="1.5" opacity="0.55"/>
+  <g text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif">
+    <text x="400" y="394" font-size="88" fill="url(#gold)" letter-spacing="4">J'CAS</text>
+    <text x="400" y="467" font-size="37" fill="#C9A063" font-family="DM Sans, Arial, sans-serif" letter-spacing="3">GALERIA 03</text>
+  </g>
+</svg>

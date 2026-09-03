@@ -1,0 +1,18 @@
+# Configuración de despliegue en Netlify.
+# Netlify ejecuta empaquetar.py en cada push y publica la carpeta que genera.
+
+[build]
+  command = "python3 empaquetar.py"
+  publish = "publicar"
+
+# Cabeceras de caché: los assets llevan nombre fijo, así que se cachean poco
+# tiempo para que un cambio de foto se vea sin tener que forzar recarga.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
